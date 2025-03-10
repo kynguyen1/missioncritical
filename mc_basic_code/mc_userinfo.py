@@ -1,11 +1,13 @@
 class User:
-   def __init__(self, name, age, gender, weight, height, goals):
+   def __init__(self, name, age, gender, weight, height, goals, activity_level,privelege):
       self.name = name
       self.age = age
       self.gender = gender  # m/f
       self.weight = weight  # in lbs
       self.height = height  # in in
       self.goals = goals
+      self.activity_level = activity_level # for total daily energy expenditure (tdee)
+      self.privilege = privilege  # Parent or Child  
 
       self.weight_kg = round(self.weight * 0.45359, 2)  #kg 
       self.height_cm = round(self.height * 2.54, 2)  #cm 
@@ -20,12 +22,16 @@ class User:
 
    def calculate_bmr(self):
       if self.gender == "m":
-         return round(88.362 + (13.397 * self.weight_kg) + (4.799 * self.height_cm) - (5.677 * self.age))
+         return round(88.362 + (13.397 * self.weight_kg) + (4.799 * self.height_cm) - (5.677 * self.age),2)
       elif self.gender == "f": 
          return round(447.593 + (9.247 * self.weight_kg) + (3.098 * self.height_cm) - (4.330 * self.age), 2)
       else:  
          return "Error: Gender must be entered as either m or f."
-
+   
+   def calculate_tdee(self):
+      bmr = self.calculate_bmr()
+      return round(bmr * self.activity_level, 2)
+   
    def display_info(self):
       return (f" Name:   {self.name}\n"
               f" Age:    {self.age}\n" 
@@ -34,7 +40,12 @@ class User:
               f" Height: {self.height} in ({self.height_cm} cm)\n" 
               f" Goals:  {self.goals}\n" 
               f" BMI:    {self.calculate_bmi()}\n" 
-              f" BMR:    {self.calculate_bmr()} calories per day\n") 
+              f" BMR:    {self.calculate_bmr()} calories per day\n" 
+              f" TDEE:   {self.calculate_tdee()} calories per day (based on activity level)\n")
+   
+   def calculate_tdee(self):
+      bmr = self.calculate_bmr()
+      return round(bmr * self.activity_level, 2)
 
 
 def main():
@@ -60,10 +71,38 @@ def main():
          raise ValueError("Height must be greater than 30 inches.")
       
       goals = input("Enter your fitness goal: ")
+      
+      print("\nSelect Your Activity Level:")
+      print("1. Sedentary (little or no exercise)")
+      print("2. Lightly active (1-3 days/week)")
+      print("3. Moderately active (3-5 days/week)")
+      print("4. Very active (6-7 days/week)")
+      print("5. Super active (athlete, intense training)")
 
-      user = User(name, age, gender, weight, height, goals)
+      activity_choice = int(input("Enter your choice (1-5): "))
+      activity_levels = {1: 1.2, 2: 1.375, 3: 1.55, 4: 1.725, 5: 1.9}
+
+      if activity_choice not in activity_levels:
+            raise ValueError("Invalid choice. Please enter a number between 1 and 5.")
+
+      activity_level = activity_levels[activity_choice]
+
+      print("\nSelect Privilege Level:")
+      print("1. Parent")
+      print("2. Child")
+
+      privilege_choice = int(input("Enter your choice (1-2): "))
+      privilege_levels = {1: "Parent", 2: "Child"}
+
+      if privilege_choice not in privilege_levels:
+        raise ValueError("Invalid choice. Please enter 1 for Parent or 2 for Child.")
+
+      privilege = privilege_levels[privilege_choice]
+
+      user = User(name, age, gender, weight, height, goals, activity_level, privilege)
       print("\nUser Data:")
       print(user.display_info())
+   
    except ValueError as e:
       print(f"Input error: {e}")
 

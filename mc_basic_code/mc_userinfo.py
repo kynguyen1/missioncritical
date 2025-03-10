@@ -1,5 +1,5 @@
 class User:
-   def __init__(self, name, age, gender, weight, height, goals, activity_level,privelege):
+   def __init__(self, name, age, gender, weight, height, goals, activity_level,privilege):
       self.name = name
       self.age = age
       self.gender = gender  # m/f

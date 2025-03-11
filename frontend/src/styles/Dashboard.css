@@ -1,0 +1,13 @@
+.dashboard-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .dashboard-stats {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-top: 10px;
+  }
+  

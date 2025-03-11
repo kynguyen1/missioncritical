@@ -1,24 +1,21 @@
-import logger from './logger.js'
+const jwt = require('jsonwebtoken');
+const { JWT_SECRET } = require('./config');
 
-const requestLogger = (request, response, next) => {
-  logger.info('Method:', request.method)
-  logger.info('Path:  ', request.path)
-  logger.info('Body:  ', request.body)
-  logger.info('---')
-  next()
-}
+// Middleware to authenticate the token
+const authenticateToken = (req, res, next) => {
+  const token = req.header('Authorization')?.replace('Bearer ', '');
 
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
-}
+  if (!token) {
+    return res.status(401).json({ message: 'Access denied' });
+  }
 
-const errorHandler = (error, request, response, next) => {
-  logger.error(error.message)
-  next(error)
-}
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: 'Invalid token' });
+    }
+    req.user = user; // Store user info in the request object
+    next();
+  });
+};
 
-export default {
-  requestLogger,
-  unknownEndpoint,
-  errorHandler,
-}
+module.exports = { authenticateToken };

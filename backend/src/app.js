@@ -1,20 +1,30 @@
-import express from 'express'
-const app = express()
-import cors from 'cors'
-import 'express-async-errors'
-import middleware from './utils/middleware.js'
-import { error as _error } from './utils/logger.js'
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import axios from 'axios';
 
-app.use(cors())
-app.use(express.static('dist'))
-app.use(express.json())
-app.use(middleware.requestLogger)
+const app = express();
+const port = 3000; // Frontend React app port
 
-app.get('/api/health', (req, res) => {
-  res.send('ok')
-})
+app.use(cors()); // Enable CORS
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static files if needed
 
-app.use(middleware.unknownEndpoint)
-app.use(middleware.errorHandler)
+// Forward API requests to Python backend
+app.get('/register_user', async (req, res) => {
+  try {
+    const response = await axios.get('http://localhost:5000/register_user');
+    res.json(response.data); // Forward the Python API response to the frontend
+  } catch (error) {
+    console.error("Error fetching data from Python backend:", error);
+    res.status(500).json({ error: 'Error fetching data' });
+  }
+});
 
-export default app
+// Serve React frontend
+app.get('/', (req, res) => {
+  res.send('React frontend served via Express');
+});
+
+app.listen(port, () => {
+  console.log(`Express server running at http://localhost:5173`);
+});

@@ -1,5 +1,5 @@
 CREATE TABLE users (
-   user_id INT PRIMARY KEY IDENTITY(1,1),
+   user_id INT PRIMARY KEY AUTO_INCREMENT,
    firstName VARCHAR(255) NOT NULL,
    lastName VARCHAR(255) NOT NULL,
    email VARCHAR(255) NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE workouts (
-   workoutID INT PRIMARY KEY IDENTITY(1,1),
+   workoutID INT PRIMARY KEY AUTO_INCREMENT,
    userID INT FOREIGN KEY REFERENCES users(user_id),
    workoutType VARCHAR(100) NOT NULL,
    duration INT NOT NULL, -- in minutes
@@ -20,7 +20,7 @@ CREATE TABLE workouts (
 );
 
 CREATE TABLE exercises (
-   exerciseID INT PRIMARY KEY IDENTITY(1,1),
+   exerciseID INT PRIMARY KEY AUTO_INCREMENT,
    workoutID INT FOREIGN KEY REFERENCES workouts(workoutID),
    exerciseName VARCHAR(100) NOT NULL,
    sets INT NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE exercises (
 );
 
 CREATE TABLE nutrition (
-   nutritionID INT PRIMARY KEY IDENTITY(1,1),
+   nutritionID INT PRIMARY KEY AUTO_INCREMENT,
    userID INT FOREIGN KEY REFERENCES users(user_id),
    foodItem VARCHAR(255) NOT NULL,
    calories INT NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE nutrition (
 );
 
 CREATE TABLE progress (
-   progressID INT PRIMARY KEY IDENTITY(1,1),
+   progressID INT PRIMARY KEY AUTO_INCREMENT,
    userID INT FOREIGN KEY REFERENCES users(user_id),
    weight DECIMAL(5, 2) NULL, -- in LBS
    bodyFat DECIMAL(5, 2) NULL, -- in percentage
@@ -48,7 +48,7 @@ CREATE TABLE progress (
 );
 
 CREATE TABLE subscription (
-   subscriptionID INT PRIMARY KEY IDENTITY(1,1),
+   subscriptionID INT PRIMARY KEY AUTO_INCREMENT,
    userID INT FOREIGN KEY REFERENCES users(user_id),
    planName VARCHAR(100) NOT NULL,
    price DECIMAL(6,2) NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE subscription (
 );
 
 CREATE TABLE payments (
-   paymentID INT PRIMARY KEY IDENTITY(1,1),
+   paymentID INT PRIMARY KEY AUTO_INCREMENT,
    userID INT FOREIGN KEY REFERENCES users(user_id),
    subscriptionID INT FOREIGN KEY REFERENCES subscription(subscriptionID),
    amountPaid DECIMAL(6,2) NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE payments (
 );
 
 CREATE TABLE admin (
-   adminID INT PRIMARY KEY IDENTITY(1,1),
+   adminID INT PRIMARY KEY AUTO_INCREMENT,
    username VARCHAR(100) NOT NULL,
    passwordHash VARCHAR(255) NOT NULL,
    role ENUM('Super Admin', 'Support', 'Manager') NOT NULL,

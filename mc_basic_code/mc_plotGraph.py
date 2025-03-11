@@ -45,10 +45,11 @@ ax.set_facecolor(BACKGROUND_COLOR)
 days_in_month = (datetime(year, month % 12 + 1, 1) - timedelta(days=1)).day
 all_dates = [f"{year}-{month:02d}-{day:02d}" for day in range(1, days_in_month + 1)]
 
+# Get weights from table
 cursor.execute("""
-   SELECT DATE(logged_date) AS log_date, weight
-   FROM weight_logs
-   WHERE YEAR(logged_date) = %s AND MONTH(logged_date) = %s
+   SELECT DATE(recordedAT) AS log_date, weight
+   FROM progress
+   WHERE YEAR(recordedAT) = %s AND MONTH(recordedAT) = %s
    """, (year,month))
 
 data = {date: None for date in all_dates} # Initialize all days as None

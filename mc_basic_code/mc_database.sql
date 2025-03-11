@@ -16,8 +16,8 @@ CREATE TABLE workouts (
    duration INT NOT NULL, -- in minutes
    caloriesBurned INT NOT NULL,
    startTime DATETIME NOT NULL,
-   endTime DATETIME NOT NULL
-   FOREIGN KEY (userID) REFERENCES users(user_id),
+   endTime DATETIME NOT NULL,
+   FOREIGN KEY (userID) REFERENCES users(user_id)
 );
 
 CREATE TABLE exercises (
@@ -58,7 +58,7 @@ CREATE TABLE subscription (
    price DECIMAL(6,2) NOT NULL,
    startDate DATETIME NOT NULL,
    endDate DATETIME NULL,
-   FOREIGN KEY (userID) REFERENCES users(user_id),
+   FOREIGN KEY (userID) REFERENCES users(user_id)
 );
 
 CREATE TABLE payments (
@@ -76,5 +76,5 @@ CREATE TABLE admin (
    adminID INT PRIMARY KEY AUTO_INCREMENT,
    username VARCHAR(100) NOT NULL,
    passwordHash VARCHAR(255) NOT NULL,
-   role ENUM('Super Admin', 'Support', 'Manager') NOT NULL,
+   role ENUM('Super Admin', 'Support', 'Manager') NOT NULL
 );

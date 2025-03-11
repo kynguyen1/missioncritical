@@ -1,3 +1,12 @@
+from db_connector import connect_db
+
+# To connect to the database
+# inside functions
+# conn = connect_db()
+# cursor = conn.cursor()
+# cursor.execute("SQL code")
+# conn.close() - at end
+
 class User:
    def __init__(self, name, age, gender, weight, height, goals, activity_level,privilege):
       self.name = name

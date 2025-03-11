@@ -1,3 +1,4 @@
+# add this line to all files that need to be connected to the database
 from db_connector import connect_db
 
 # To connect to the database
@@ -79,7 +80,15 @@ def main():
       if height <= 30:
          raise ValueError("Height must be greater than 30 inches.")
       
-      goals = input("Enter your fitness goal: ")
+      goals = int(input("""Enter your fitness goal: (1)(2)(3)(4) 
+                        (1) Maintain weight
+                        (2) Lose weight
+                        (3) Increase Muscle Mass
+                        (4) Improve Stamina
+                        """))
+      if goals < 1 or goals > 4:
+         raise ValueError("You must select 1, 2, 3, or 4.")
+      
       
       print("\nSelect Your Activity Level:")
       print("1. Sedentary (little or no exercise)")

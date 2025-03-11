@@ -80,15 +80,19 @@ def main():
       if height <= 30:
          raise ValueError("Height must be greater than 30 inches.")
       
-      goals = int(input("""Enter your fitness goal: (1)(2)(3)(4) 
+      goals = int(input("""Enter your fitness goal: (0)(1)(2)(3)(4) 
+                        (0) No specific goal
                         (1) Maintain weight
                         (2) Lose weight
                         (3) Increase Muscle Mass
                         (4) Improve Stamina
                         """))
-      if goals < 1 or goals > 4:
-         raise ValueError("You must select 1, 2, 3, or 4.")
-      
+      if goals < 0 or goals > 4:
+         raise ValueError("You must select 0, 1, 2, 3, or 4.")
+      break #exit loop if input is invalid
+   except ValueError:
+      print ("invlaid input. Please enter a number between 0 and 4.")
+
       
       print("\nSelect Your Activity Level:")
       print("1. Sedentary (little or no exercise)")
